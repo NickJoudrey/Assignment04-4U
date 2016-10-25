@@ -20,24 +20,45 @@ public class Game {
     public static void main(String[] args) {
         //create board
         Board board = new Board(12, 12);
-        Doctor doc = new Doctor(2,5);
-        Dalek d1 = new Dalek(4,6);
         //put a coloured peg at x, y
-        board.putPeg(Color.BLACK, d1.getRow(), d1.getCol());
-        board.putPeg(Color.YELLOW, 6, 6);
+        Dalek[] dalek = new Dalek[3];
         
-        //remove peg
-        board.removePeg(1, 5);
+        for(int i = 0; i < dalek.length; i++){
+            int randomR = (int) (Math.random() *12);
+            int randomC = (int) (Math.random() *12);
+            board.putPeg(Color.yellow, randomR, randomC);
+            dalek[i] = new Dalek(randomR, randomC);
+        }
         
-        //put a message on board
-        board.displayMessage("Please click the board");
+        int randomRDoc = (int) (Math.random() *12);
+        int randomCDoc = (int) (Math.random() *12);
+        
+        Doctor doc = new Doctor(randomRDoc, randomCDoc);
+        board.putPeg(Color.black, randomRDoc, randomCDoc);
+        
+        
+        
+        
+        
         while(true){
         //get the coordinate of a click
+        
+        board.displayMessage("Please click the board to move the doctor");
         Coordinate click = board.getClick();
         int row = click.getRow();
         int col = click.getCol();
+        board.removePeg(doc.getRow(), doc.getCol());
+        doc.move(row, col);
+        board.putPeg(Color.black, doc.getRow(), doc.getCol());
+        for(int i = 0; i < dalek.length; i++){
+            board.removePeg(dalek[i].getRow(), dalek[i].getCol());
+            dalek[i].advanceTowards(doc);
+            board.putPeg(Color.yellow, dalek[i].getRow(), dalek[i].getCol());
+        }
+            
         
-        board.putPeg(Color.MAGENTA, row, col);
+        
+        
         }
     }
 }

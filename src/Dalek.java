@@ -14,6 +14,8 @@ public class Dalek {
     private boolean crashed;
 
     public Dalek(int row, int col) {
+        this.row = row;
+        this.col = col;
     }
 
     public void advanceTowards(Doctor doc) {
@@ -25,14 +27,19 @@ public class Dalek {
         //if positive, doc is right of dalek
         //if 0, doc and dalek are in the same col
         //if negative, doc is left of dalek
-        
-        if (rowCompare > 0){
-            this.row = this.row++;
+
+        if (rowCompare > 0) {
+            this.row++;
         } else if (rowCompare < 0) {
-            this.row = this.row--;
+            this.row--;
         }
-        
-        
+        //move towards the doctors row by 1
+        if (colCompare > 0) {
+            this.col = this.col + 1;
+        } else if (colCompare < 0) {
+            this.col = this.col - 1;
+        }
+        // move towards the doctors column by 1
     }
 
     public int getRow() {
@@ -46,8 +53,7 @@ public class Dalek {
     public boolean hasCrashed() {
         return this.crashed;
     }
-    
-    public void crash(){
-        
+
+    public void crash() {
     }
 }
